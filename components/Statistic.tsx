@@ -1,23 +1,30 @@
-import { useState } from "react";
+import { time } from "console";
+import { useEffect, useState } from "react";
 import { Job } from "../typings";
 import { fetchJobs } from "../utils/getSalary";
 
-export async function Statistic() {
-  const [salary, SetSalary] = useState<number[]>();
+export function Statistic() {
+  const [salary, setSalary] = useState<number[]>();
 
-  SetSalary(await fetchJobs());
+  useEffect(() => {
+    const fetchSalary = async () => {
+      setSalary(await fetchJobs());
+    };
+    fetchSalary().catch(console.error);
+  }, []);
 
   if (!salary) {
-    console.log(salary);
-    return (
-      <div>
-        <div>
-          {salary.map((items) => {
-            <div>{items}</div>;
-          })}
-        </div>
-        <div>Test statistic</div>
-      </div>
-    );
+    return <span>Loading....</span>;
   }
+
+  return (
+    <div>
+      <ul>
+        {salary.map((item, index) => (
+          <li key={index}>{item}</li>
+        ))}
+      </ul>
+      <div>Test statistic</div>
+    </div>
+  );
 }

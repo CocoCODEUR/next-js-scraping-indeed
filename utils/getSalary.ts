@@ -1,9 +1,9 @@
 import { Job } from "../typings";
 
 export const fetchJobs = async () => {
-  const res = await fetch("http://localhost:8000/jobData");
+  const res = await fetch(`${process.env.NEXT_PUBLIC_BASE_URL}jobData`);
   const data: Job = await res.json();
-  console.log(data);
-  console.log(data.Salary);
-  return data.Salary;
+  const salary: number[] = data.Salary;
+
+  return salary;
 };
